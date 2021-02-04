@@ -14,8 +14,8 @@ var $ = require('jquery')(new jsdom.JSDOM().window)
     await page.goto('https://www.amazon.com/ap/signin?openid.return_to=https%3A%2F%2Faffiliate-program.amazon.com%2F&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=amzn_associates_us&openid.mode=checkid_setup&marketPlaceId=ATVPDKIKX0DER&language=en_US&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.pape.max_auth_age=0')
 
     // Login
-    await page.type('#ap_email', 'adibhurtadoolson@gmail.com')
-    await page.type('#ap_password', 'adibisthebest4A')
+    await page.type('#ap_email', 'EMAIL')
+    await page.type('#ap_password', 'PASSWORD')
     await page.click('#signInSubmit')
     await page.waitForNavigation()
 
