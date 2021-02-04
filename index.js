@@ -65,29 +65,37 @@ async function dataGetter(page2){
   let links = await page2.$$eval('.a-link-normal', allLink => allLink.map(a => a.href))
   let descriptions = await page2.$$eval('.a-link-normal', allDesc => allDesc.map(desc => desc.textContent))
   descriptions = descriptions.slice(10)
-  let new_cat = []
-  let date = []
-  var results = []
+  var cat = []
+  var date = []
+  var content = []
+
   for (var i = 0; i < categories.length; i++) {
     
     if(i % 2 === 0) { 
-        new_cat.push(categories[i]);
+        cat.push(categories[i]);
     }
     else{
         date.push(categories[i])
     }
-}
-  for(var i = 1; i < new_cat.length; i++ ){
-    temp = {
-      "Category": new_cat[i],
-      "Link": links[i],
-      "Description": descriptions[i],
-      "Date": date[i]
-    }
-    results.push(temp)
   }
-  results = JSON.stringify(results)
-  fs.writeFile('data2.json',  results, (err) =>{
+  for(var i = 1; i < cat.length; i++ ){
+    var new_cat = cat[i].replace(/\n/g, '').split(", ")
+    var new_desc = descriptions[i].replace(/\n/g, '').split(", through")
+    var no_promo = new_desc[0].split(" with promo code ")
+    var sep_comp = no_promo[0].split(" from ")
+    var new_date = date[i].replace(/\n/g, '').split(" | ")
+    content.push({
+        "Company": sep_comp[1],
+        "Category": [new_cat[0], new_cat[1]],
+        "Descriptions": sep_comp[0],
+        "Link": links[i],
+        "Code": no_promo[1],
+        "Start": new_date[0].replace('Start Date: ', ''),
+        "End": new_date[1].replace('End Date: ', '')
+    })
+  }
+  results = JSON.stringify(content)
+  fs.writeFile('data4.json',  results, (err) =>{
     if (err) throw err
 
     console.log("Data saved!")
